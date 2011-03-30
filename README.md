@@ -11,6 +11,9 @@ Here's a short video showing how I'm using the plugin: <http://screencast.com/t/
 I built this for CF9, so you may have issues if you are using an older CF version. There are definitely some bugs. Please post issues in the "Issues" section of the GitHub repo.
 
 Credit:
-*   The plugin is based off of Mura's Remote Connector Plugin: <http://www.getmura.com/blog/new-remote-connector-plugin/>
-*   Grant Shepart's Configurable Display Objects in Mura CMS Plugins was very helpful: <http://www.grantshepert.com/post.cfm/configurable-display-objects-in-mura-cms-plugins>
+
+* The plugin is based off of Mura's Remote Connector Plugin: <http://www.getmura.com/blog/new-remote-connector-plugin/>
+ 
+
+* Grant Shepart's Configurable Display Objects in Mura CMS Plugins was very helpful: <http://www.grantshepert.com/post.cfm/configurable-display-objects-in-mura-cms-plugins>
 
