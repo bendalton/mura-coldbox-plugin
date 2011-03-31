@@ -101,6 +101,9 @@ component extends="mura.plugin.pluginGenericEventHandler"{
 		}
 		
 		objGet = service.send().getPrefix();
+	    
+	    var pc = getpagecontext().getresponse();
+        pc.getresponse().setstatus(objGet.responseHeader.status_code);
 		
 		tempCurrent = pSession.getValue("remoteCookies");
 		tempNew = getResponseCookies(objGet);
