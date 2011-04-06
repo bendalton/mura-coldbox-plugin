@@ -1,6 +1,6 @@
 This is a simple plugin that allows you to integrate ColdBox applications throughout your Mura install.
 
-h3.Update
+Update
 ---
 I have added support for integrating with Grant Shepert's >Meld URL Interceptor Plugin (read more at <http://www.grantshepert.com/post.cfm/mura-cms-urlintercepts-the-plugin>)
 
@@ -16,9 +16,12 @@ Here's an example use:
 
 4. Add the content object to a region on your page (I have a 'main content region' configured that I use) and publish the page.
 
-5. Install and configure the Meld URL Interceptor Plugin with an interceptor configuration like follows:
+5. Install and configure the Meld URL Interceptor Plugin with an interceptor configuration with the xml below:
 
-<?xml version="1.0" encoding="UTF-8"?>
+6. Reload the application and visit http://example.com/coldbox/ and add any event to the end of the url.  
+
+
+`<?xml version="1.0" encoding="UTF-8"?>
 <intercept>
 	<name>Coldbox Intercept</name>
 	<package>ColdboxIntercept</package>
@@ -31,12 +34,10 @@ Here's an example use:
 	<keepkey>false</keepkey>
 	<siteID>default</siteID>
 	<keysets/>
-</intercept>
+</intercept>`
 
-6. Reload the application and visit http://example.com/coldbox/ and add any event to the end of the url.  
-
-
----
+Additional Info
+----
 You can use it within templates with some syntax like
     #$.event.getValue('YourRemoteAppKey').call({event="home.index"});#
 
