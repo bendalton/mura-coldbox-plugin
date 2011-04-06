@@ -20,21 +20,20 @@ Here's an example use:
 
 6. Reload the application and visit http://example.com/coldbox/ and add any event to the end of the url.  
 
-
-`<?xml version="1.0" encoding="UTF-8"?>
-<intercept>
-	<name>Coldbox Intercept</name>
-	<package>ColdboxIntercept</package>
-	<isactive>true</isactive>
-	<intercept>coldbox</intercept>
-	<pathprefix></pathprefix>
-	<matchfromroot>true</matchfromroot>
-	<strict>false</strict>
-	<recurse>false</recurse>
-	<keepkey>false</keepkey>
-	<siteID>default</siteID>
-	<keysets/>
-</intercept>`
+    <?xml version="1.0" encoding="UTF-8"?>
+    <intercept>
+    	<name>Coldbox Intercept</name>
+    	<package>ColdboxIntercept</package>
+    	<isactive>true</isactive>
+    	<intercept>coldbox</intercept>
+    	<pathprefix></pathprefix>
+    	<matchfromroot>true</matchfromroot>
+    	<strict>false</strict>
+    	<recurse>false</recurse>
+    	<keepkey>false</keepkey>
+    	<siteID>default</siteID>
+    	<keysets/>
+    </intercept>
 
 Additional Info
 ----
