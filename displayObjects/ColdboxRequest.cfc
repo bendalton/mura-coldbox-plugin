@@ -5,21 +5,34 @@
 			var proxyPlugin = event.getValue(pluginConfig.getSetting('RemoteAppKey'));
 			var params = deserializeJSON( $.event().getValue("params") );
 			params.properties = deserializeJSON( params.properties );
-			
-			
+		
 			var callParameters = structNew();
 			callParameters.event = params.event;
 			for(prop in params.properties)
 			{
 				callParameters[prop.key] = evaluate(prop.cf);
 			}
-			 
 			
+			//writedump(var=params,abort=true);
+
+			if(structKeyExists(params,"useURLInterception") AND params.useURLInterception && event.valueExists("URLInterceptResponse"))
+			{
+				var eventExtra = arrayToList(event.getValue('URLInterceptResponse').getExtra(),".");
+				if(len(eventExtra) && len(callParameters.event)){
+					callParameters.event = callParameters.event & "." & eventExtra;
+				}
+				else if(not len(callParameters.event)){
+					allParameters.event = eventExtra;
+				}
+				
+			}
 			var output = proxyPlugin.call(callParameters);
-		
+
 		</cfscript>
 		
+		<cfset output = output/>
 		<cfreturn #output# />
+		
 	</cffunction>
 	
 	<!--- Mura Content Object dropdown renderer --->
@@ -30,6 +43,9 @@
 		<cfset var str="">
 		<cfsavecontent variable="str"><cfoutput>
 		<label>Coldbox Event: </label> <input class="cboxPluginInput" id="cbEvent" name="event"/><br/><br/>
+		<label>Use URL Interception?</label> <input type="checkbox" class="cboxPluginInput" id="useInterception"/><br/>
+		<small>Appends additional URL segments to event when checked. (depends on: <a href="http://www.grantshepert.com/post.cfm/mura-cms-urlintercepts-the-plugin">Meld URLIntercept Plugin</a>)</small><br/>		
+		
 		<label>Additional Properties <button type="button" id="addPropertyButton">+</button></label>
 		<ul id="additionalProperties"></ul>
 		<select style="display:none;" name="availableObjects" id="availableObjects"/>
@@ -55,6 +71,7 @@
 			});
 			
 			options.event = jQuery("##cbEvent").val();
+			options.useURLInterception = jQuery("##useInterception").val() == "on";
 			options.properties = properties;
 
 			var doObjects = 'plugin~ColdBox Event: '+jQuery("##cbEvent").val();
