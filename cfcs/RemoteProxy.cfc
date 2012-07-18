@@ -23,7 +23,7 @@ component extends="mura.plugin.pluginGenericEventHandler"{
     
     function getResponseCookies(response){
         var cookies    = structNew();
-        var temp       = structNew()
+        var temp       = structNew();
         var theCookie  = "";
         var cookiePair = [];
         var i          = 0;
