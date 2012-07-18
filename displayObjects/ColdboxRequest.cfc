@@ -4,7 +4,10 @@
 		<cfscript>
 			var proxyPlugin = event.getValue(pluginConfig.getSetting('RemoteAppKey'));
 			var params = deserializeJSON( $.event().getValue("params") );
-			params.properties = deserializeJSON( params.properties );
+			if (isSimpleValue(params.properties)) {
+				/* params.properties may already be an array or object, making this line unnecessary */
+				params.properties = deserializeJSON( params.properties );
+			}
 		
 			var callParameters = structNew();
 			callParameters.event = params.event;

@@ -22,33 +22,52 @@ component extends="mura.plugin.pluginGenericEventHandler"{
     }
     
     function getResponseCookies(response){
-        var cookies = structnew();
-	
+        var cookies    = structNew();
+        var temp       = structNew()
+        var theCookie  = "";
+        var cookiePair = [];
+        var i          = 0;
+
         if(NOT StructKeyExists(response.ResponseHeader,"Set-Cookie")){      
             return cookies;
         }
         
         var returnedCookies = response.ResponseHeader[ "Set-Cookie" ];
 
-        if (not isStruct(returnedCookies) and not isArray(returnedCookies)){
-            var temp = structNew();
-            temp["1"] = returnedCookies;
+        /* The expected return value is either a string or an array-like struct.
+         * The string, or each element of the struct, is url-encoded, and takes the form
+         *     name=value;other_information_1;...;other_information_n
+         * For the purposes of this proxy, we are only interested in passing along the name
+         * and value.
+         *
+         * Here, the response is converted into an struct if it isn't one already. */
+        if (not isStruct(returnedCookies)){
+        	if (not isArray(returnedCookies)){
+        		temp["1"] = returnedCookies;
+        	} else {
+	    		for(i=1;i lte arrayLen(returnedCookies);i++){
+	    	        temp[i]=returnedCookies[i];
+	    		}
+        	}
+        	returnedCookies = duplicate(temp);
         }
-        else if (isArray(returnedCookies)){
-            temp = structNew();
-    		for(var i=1;i lte arrayLen(returnedCookies);i++){
-    	        temp[i]=returnedCookies[i];
-    		}
-    		returnedCookies = duplicate(temp);
+
+        for (i in returnedCookies){
+        	/* get the part before the first semicolon ("name=value") */
+        	theCookie  = listFirst(returnedCookies[i], ";");
+
+        	/* convert "name=value" to ["name", "value"] */
+        	cookiePair = listToArray(theCookie, "=");
+
+        	/* If the value was an empty string, it will not exist in the array. Insert it. */
+        	if (arrayLen(cookiePair) < 2) {
+        		cookiePair[2] = "";
+        	}
+
+        	cookies[urlDecode(cookiePair[1])] = urlDecode(cookiePair[2]);
         }
-        
-	    for(cookie in returnedCookies){
-			for(key in cookie){
-				cookies[key] = cookie[key];
-			}       
-	     }
-		 
-		 return cookies;
+
+		return cookies;
 	}
 	
 	function call(params){
